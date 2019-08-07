@@ -1,0 +1,6 @@
+(define (odds nums)
+  (if (empty? nums)
+      '()
+      (if (odd? (first nums))
+          (sentence (first nums) (odds (butfirst nums)))
+          (odds (butfirst nums)))))

@@ -1,0 +1,6 @@
+(define (filter predicate parameter)
+  (if (empty? parameter)
+      '()
+      (if (predicate (first parameter))
+          (cons (first parameter) (filter predicate (butfirst parameter)))
+          (filter predicate (butfirst parameter)))))
