@@ -27,5 +27,6 @@ public class SumList  {
             line = reader.nextLine();
         }
         System.out.println(oneDecimal.format(sumList(theList)));
+        reader.close();
     }
 }

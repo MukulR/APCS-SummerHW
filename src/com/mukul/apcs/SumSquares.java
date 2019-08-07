@@ -16,5 +16,6 @@ public class SumSquares {
         int start = reader.nextInt();
         int end = reader.nextInt();
         System.out.println(sumSquares(start, end));
+        reader.close();
     } //End of main
 } //End of SumSquares Class

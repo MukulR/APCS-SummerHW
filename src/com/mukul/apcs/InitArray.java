@@ -30,5 +30,6 @@ public class InitArray {
         ia.initArray(arr);
         System.out.println(arr[3][5]);
         System.out.println(arr[17][4]);
+        reader.close();
     }
 }
