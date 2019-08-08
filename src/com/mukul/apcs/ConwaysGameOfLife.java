@@ -6,14 +6,19 @@ import java.util.concurrent.TimeUnit;
  * Author: Mukul Rao
  *
  * Learnt about Conway's Game of Life and its rules (https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life)
- * The following code may be a little inefficient as we check every index and its neighbors every time.
- * Perhaps there is a faster, more efficient way of simulating Conway's Game of Life...
- *
- * */
-public class Life {
+ * The following code is my first attempt at implementing Conway's Game of Life.
+ * I know of many inefficiencies that I intend to iterate on in the future. The following are some of them:
+ * 1. For every new generation I am making a new copy of the grid. I intend to come up with an algorithm
+ *    that will eliminate copying.
+ * 2. Allow customization of grid size and initial state. The current implementation has hard coded
+ *    grid dimensions and initial state. (GUI w/ Processing)?
+ */
+
+public class ConwaysGameOfLife {
     public static void printGrid(int[][] board) {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                //For nicer looking grids
                 if(board[i][j] == 1){
                     System.out.printf(String.format("%5s", "●"));
                 } else {
@@ -26,24 +31,37 @@ public class Life {
     }
 
     public static void main(String[] args) {
-        int[][] grid = new int[5][5];
-        grid[1][2] = 1;
-        grid[2][2] = 1;
-        grid[3][2] = 1;
+        int[][] grid = new int[10][10];
+        // Sample initial position (oscillating "Toad" - as called by wikipedia)
+        grid[4][4] = 1;
+        grid[4][5] = 1;
+        grid[4][6] = 1;
+        grid[3][5] = 1;
+        grid[3][6] = 1;
+        grid[3][7] = 1;
         printGrid(grid);
         while(true) {
+            // 1 second delay between grid read-outs.
+            // try catch to prevent interruption exceptions
             try {
                 TimeUnit.SECONDS.sleep(1);
             } catch(InterruptedException e) {
                 System.out.println("got interrupted!");
             }
-            int[][] updatedGrid = conways(grid);
+            int[][] updatedGrid = updateGrid(grid);
             grid = updatedGrid;
             printGrid(updatedGrid);
         }
     }
 
-    public static int[][] conways(int[][] grid) {
+    /**
+     * In order to find 8 neighbors for a given cell, I form a 3x3 matrix
+     * around the given cell. (The 2 inner for loops)
+     *
+     * I take into account that for certain some neighbors may be invalid, (out of bounds)
+     * and process the valid neighbors only.
+     */
+    public static int[][] updateGrid(int[][] grid) {
         int[][] updatedGrid = new int[grid.length][grid[0].length];
         for(int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[0].length; j++) {
