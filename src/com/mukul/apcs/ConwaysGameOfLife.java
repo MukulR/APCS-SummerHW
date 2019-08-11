@@ -44,7 +44,7 @@ public class ConwaysGameOfLife {
             // 1 second delay between grid read-outs.
             // try catch to prevent interruption exceptions
             try {
-                TimeUnit.SECONDS.sleep(1);
+                TimeUnit.MILLISECONDS.sleep(500);
             } catch(InterruptedException e) {
                 System.out.println("got interrupted!");
             }
